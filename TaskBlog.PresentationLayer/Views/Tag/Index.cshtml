@@ -1,0 +1,11 @@
+﻿@model TaskBlog.PresentationLayer.ViewModels.TagViewModel[]
+@{
+    ViewBag.Title = "Категории";
+}
+
+<h2 class="text-center">Категории</h2>
+<div class="row">
+    @CategoryHelpers.CategoryList(Model)
+</div>
+<hr/>
+@Html.Partial("_Form")

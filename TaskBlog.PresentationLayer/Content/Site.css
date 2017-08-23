@@ -1,0 +1,173 @@
+﻿
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 80%;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.blogShort{ border-bottom:1px solid #ddd;}
+.add{background: #333; padding: 10%; height: 300px;}
+
+.nav-sidebar { 
+    width: 100%;
+    padding: 8px 0; 
+    border-right: 1px solid #ddd;
+}
+.nav-sidebar a {
+    color: #333;
+    -webkit-transition: all 0.08s linear;
+    -moz-transition: all 0.08s linear;
+    -o-transition: all 0.08s linear;
+    transition: all 0.08s linear;
+}
+.nav-sidebar .active a { 
+    cursor: default;
+    background-color: #34ca78; 
+    color: #fff; 
+}
+.nav-sidebar .active a:hover {
+    background-color: #37D980;   
+}
+.nav-sidebar .text-overflow a,
+.nav-sidebar .text-overflow .media-body {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis; 
+}
+
+.btn-blog {
+    color: #ffffff;
+    background-color: #37d980;
+    border-color: #37d980;
+    border-radius:0;
+    margin-bottom:10px
+}
+.btn-blog:hover,
+.btn-blog:focus,
+.btn-blog:active,
+.btn-blog.active,
+.open .dropdown-toggle.btn-blog {
+    color: white;
+    background-color:#34ca78;
+    border-color: #34ca78;
+}
+ h2{color:#34ca78;}
+ .margin10{margin-bottom:10px; margin-right:10px;}
+
+ .jumbotron{
+    background-image: url("Images/jumbotron1.jpg");
+    color:#fff;
+}
+
+.form-head{
+	margin-bottom: 25px;
+    text-align: center;
+    color: forestgreen;
+}
+
+.panel-heading{
+    background-color: #d9f2d9;
+    color: forestgreen;
+}
+
+a{
+    color: forestgreen;
+}
+
+.ms-footer{
+    background-color: #2e852e;
+    color: white;
+    text-align: center;
+    min-height: 80px;
+    padding: 20px;
+}
+
+.ms-comment-area{
+    background-color: #FAFAFA;
+	padding: 5px 20px 5px;
+    margin: 10px 120px;
+	border: 1px dashed green;
+}
+
+.ms-form-area{
+	background-color: #FAFAFA;
+	padding: 10px 40px 10px;
+	margin: 10px 150px;
+	border: 1px dashed green;
+    font-size: 16px;
+}
+
+.ms-vidget-area{
+    background-color: #FAFAFA;
+	padding: 10px 20px 10px;
+	border: 1px dashed green;
+    font-size: 14px;
+}
+
+.ms input,
+.ms select,
+.ms textarea{
+	max-width: inherit;
+}
+
+.ms-footer a{
+     color: #99ffbb;
+}
+
+.ms-correct{
+    color: forestgreen;
+}
+
+.ms-incorrect{
+    color: red;
+}
+
+.ms-answer-variant{
+    margin-left: 20px;
+}
+
+.ms-tags-panel a{
+    color: white;
+}
+
+ol{ 
+    padding-left: 15px;
+}
+
+li ol{
+    padding-left: 40px;
+}
+
+.bootstrap-tagsinput{
+    display: block;
+}
+
+.ms-navbar{
+    margin-bottom: 0;
+    background-color: #284F27;
+}
+
+.ms-navbar a{
+    color: #99ffbb;
+}
+
+.nav > li > a:hover{
+    background-color: lightgreen;
+    color: darkgreen;
+}

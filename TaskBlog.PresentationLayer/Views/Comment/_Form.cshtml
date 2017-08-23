@@ -1,0 +1,37 @@
+﻿@model TaskBlog.PresentationLayer.ViewModels.CommentViewModel
+
+<div class="row">
+    <div class="ms ms-comment-area col-md-8">
+        @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h3 class="form-head">Добавить комментарий</h3>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-2">
+                    <div class="thumbnail">
+                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                    </div><!-- /thumbnail -->
+                </div>
+
+                <div class="col-md-10">
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.ParentPostId);
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @placeholder = "Name of article", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextAreaFor(model => model.Description, new { @placeholder = "Description", @class = "form-control", @rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input type="submit" value="Create" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

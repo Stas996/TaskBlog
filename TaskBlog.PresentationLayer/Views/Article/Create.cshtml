@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Добавить статью";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+@Html.Partial("_Form", new TaskBlog.PresentationLayer.ViewModels.ArticleViewModel())
+

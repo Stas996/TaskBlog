@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center">Панель администратора</h2>
+
+<ul>
+    <li>@Html.ActionLink("Добавить статью", "Create", "Article", new { area = "" }, null)</li>
+    <li>@Html.ActionLink("Добавить категории", "Index", "Tag", new { area = "" }, null)</li>
+</ul>

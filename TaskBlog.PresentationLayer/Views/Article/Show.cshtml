@@ -1,0 +1,29 @@
+﻿@model TaskBlog.PresentationLayer.ViewModels.ArticleViewModel
+
+@{
+    ViewBag.Title = Model.ShortDescription;
+}
+
+<h2>@Model.Name</h2>
+<hr/>
+    <span>Категории: </span>
+    <div class="ms-tags-panel">
+        @foreach (var t in Model.Tags)
+        {
+            <span class="label label-success">@Html.ActionLink(t.Name, "SearchByTag", new { tagId = t.Id })</span>
+        }
+    </div>
+<hr/>
+<div>
+    @Model.Description
+</div>
+
+<hr />
+<h3 class="text-center">Комментарии</h3>
+    @Html.Partial("~/Views/Comment/_Form.cshtml", new TaskBlog.PresentationLayer.ViewModels.CommentViewModel() { ParentPostId = Model.Id})
+    @CommentHelpers.CommentsList(Model.Comments)
+<hr />
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to main", "Index")
+</p>

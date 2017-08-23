@@ -1,0 +1,25 @@
+﻿@using System.Web.Mvc.Html
+@*хелпер для вывода категорий*@
+@helper CategoryList(TaskBlog.PresentationLayer.ViewModels.TagViewModel[] categories, int partsCount = 1)
+{
+    var Html = ((System.Web.Mvc.WebViewPage)WebPageContext.Current.Page).Html;
+    var partLength = categories.Length / partsCount;
+    for (var i = 0; i < partsCount; i++)
+    {
+        <div class="col-md-3">
+            @{var alphaLetter = 'A'; }
+            @for (var j = 0; j < partLength; j++)
+            {
+                var c = categories[i * partLength + j];
+                if(c.AlphabetLetter != alphaLetter)
+                {
+                    alphaLetter = c.AlphabetLetter;
+                    <h3>@c.AlphabetLetter</h3>
+                    <hr />
+                }
+                <p>@Html.ActionLink(c.Name, "GetByTag", "Article", new { tagId = c.Id}, null)</p>
+            }
+        </div>
+    }
+    
+}

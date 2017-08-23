@@ -1,0 +1,36 @@
+﻿@model TaskBlog.PresentationLayer.ViewModels.ArticleViewModel
+@{ 
+    var tags = (ViewBag.Tags != null) 
+        ? ViewBag.Tags 
+        : new TaskBlog.PresentationLayer.ViewModels.TagViewModel();
+}
+
+<div class="row">
+    <div class="ms ms-form-area col-md-8">
+        @using (Html.BeginForm("Create", "Article", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h3 class="form-head">Добавить статью</h3>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">              
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @placeholder = "Name of article", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">       
+                    @Html.DropDownListFor(model => model.TagsId, new SelectList(tags, "Id", "Name"), new { @class = "selectpicker", @multiple = "multiple" })
+                </div>
+                <div class="form-group">                
+                    @Html.TextAreaFor(model => model.Description, new { @placeholder = "Description", @class = "form-control", @rows = "10" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })                   
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="submit" value="Добавить" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
