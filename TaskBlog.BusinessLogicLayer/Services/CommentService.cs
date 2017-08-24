@@ -34,7 +34,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
             _postRepository.Create(domModel);
         }
 
-        public void Delete(int id)
+        public void Delete(object id)
         {
             _postRepository.Delete(id);
         }
@@ -59,7 +59,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
             return dtoModels;
         }
 
-        public CommentDTO GetById(int id)
+        public CommentDTO GetById(object id)
         {
             var domModel = _postRepository.GetById(id);
             var dtoModel = _modelsMapper.Map<Post, CommentDTO>(domModel);

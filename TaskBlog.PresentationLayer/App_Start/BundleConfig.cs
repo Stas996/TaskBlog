@@ -26,7 +26,8 @@ namespace TaskBlog.PresentationLayer
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-select.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/my-style.css"));
         }
     }
 }

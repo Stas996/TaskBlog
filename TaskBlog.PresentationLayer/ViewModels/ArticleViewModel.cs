@@ -13,6 +13,8 @@ namespace TaskBlog.PresentationLayer.ViewModels
 
         public int Id { get; set; }
 
+        public int UserId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -34,5 +36,7 @@ namespace TaskBlog.PresentationLayer.ViewModels
         public TagViewModel[] Tags { get; set; }
 
         public CommentViewModel[] Comments { get; set; }
+
+        public UserProfileViewModel User { get; set; }
     }
 }

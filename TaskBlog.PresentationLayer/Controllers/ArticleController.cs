@@ -23,6 +23,7 @@ namespace TaskBlog.PresentationLayer.Controllers
 
             var config = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<UserProfileDTO, UserProfileViewModel>();
                 cfg.CreateMap<ArticleDTO, ArticleViewModel>();
                 cfg.CreateMap<TagDTO, TagViewModel>();
                 cfg.CreateMap<CommentDTO, CommentViewModel>();
@@ -36,6 +37,14 @@ namespace TaskBlog.PresentationLayer.Controllers
         public ActionResult Index()
         {
             var articles = _articleService.GetAll().OrderByDescending(a => a.DateTime).ToList();
+            var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles);
+            ViewBag.Tags = _tagService.GetAll();
+            return View(viewArticles);
+        }
+
+        public ActionResult Index(string userId)
+        {
+            var articles = _articleService.GetByUserId(userId).OrderByDescending(a => a.DateTime).ToList();
             var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles);
             ViewBag.Tags = _tagService.GetAll();
             return View(viewArticles);

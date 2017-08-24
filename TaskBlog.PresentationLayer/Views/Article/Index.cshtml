@@ -4,8 +4,18 @@
 }
 
 <h2 class="text-center">Популярные статьи</h2>
-    @ArticleHelpers.ArticlesList(Model)
 <hr />
+    @if (Model.Count() > 0)
+    {
+        @ArticleHelpers.ArticlesList(Model)
+    }
+    else
+    {
+        <div class="ms-empty">
+            <span class="text-center">Не опубликовано ни одной статьи</span>
+        </div>
+    }
+
 @*@Html.Partial("_Form", new TaskBlog.PresentationLayer.ViewModels.ArticleViewModel())*@
 
 @section scripts{

@@ -70,8 +70,8 @@
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -89,6 +89,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -101,6 +102,7 @@
     <Compile Include="DTOModels\CommentDTO.cs" />
     <Compile Include="DTOModels\TagDTO.cs" />
     <Compile Include="DTOModels\UserDTO.cs" />
+    <Compile Include="DTOModels\UserProfileDTO.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -108,8 +110,10 @@
     <Compile Include="Services\ArticleService.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Services\Identity\EmailService.cs" />
     <Compile Include="Services\TagService.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\Identity\UserService.cs" />
+    <Compile Include="Services\UserProfileService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskBlog.DataLayer\TaskBlog.DataLayer.csproj">
@@ -117,7 +121,6 @@
       <Name>TaskBlog.DataLayer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

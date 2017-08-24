@@ -7,7 +7,10 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Управление сайтом", "Index", "Manage", routeValues: new { area = "admin"}, htmlAttributes: new { title = "Manage" })
+            <a><img src="~/Content/Images/no-image.png" class="img-circle" width="25" height="25" /></a>
+        </li>
+        <li>
+            @Html.ActionLink("Мой кабинет", "Show", "UserProfile", new { userId = User.Identity.GetUserId<string>()} , htmlAttributes: new { title = "Личный кабинет" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>
     </ul>
@@ -16,7 +19,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        @*<li>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+        <li>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

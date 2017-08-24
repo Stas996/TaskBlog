@@ -1,4 +1,5 @@
-﻿@model TaskBlog.PresentationLayer.ViewModels.ArticleViewModel
+﻿@using Microsoft.AspNet.Identity
+@model TaskBlog.PresentationLayer.ViewModels.ArticleViewModel
 @{ 
     var tags = (ViewBag.Tags != null) 
         ? ViewBag.Tags 
@@ -14,7 +15,8 @@
             <div class="form-horizontal">
                 <h3 class="form-head">Добавить статью</h3>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">              
+                <div class="form-group"> 
+                    @Html.HiddenFor(model => model.UserId, new { @value = User.Identity.GetUserId<string>()})             
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @placeholder = "Name of article", @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>

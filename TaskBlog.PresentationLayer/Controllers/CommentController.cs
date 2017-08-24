@@ -19,6 +19,7 @@ namespace TaskBlog.PresentationLayer.Controllers
             _service = service as CommentService;
             var config = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<UserProfileDTO, UserProfileViewModel>();
                 cfg.CreateMap<CommentDTO, CommentViewModel>();
             });
 
@@ -31,6 +32,12 @@ namespace TaskBlog.PresentationLayer.Controllers
             var dtoModels = _service.GetByArticleId(articleId).OrderByDescending(a => a.DateTime).ToList();
             var viewModels = _modelsMapper.Map<List<CommentDTO>, List<CommentViewModel>>(dtoModels);
             return View(viewModels);
+        }
+
+        public PartialViewResult Create(int parentId)
+        {
+            return PartialView("_Form", 
+                new CommentViewModel() { ParentPostId = parentId });
         }
 
         [HttpPost]

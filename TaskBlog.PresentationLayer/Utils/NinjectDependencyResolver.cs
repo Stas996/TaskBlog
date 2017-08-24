@@ -5,6 +5,7 @@ using Ninject;
 using TaskBlog.BusinessLogicLayer.DTOModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
 using TaskBlog.BusinessLogicLayer.Services;
+using TaskBlog.BusinessLogicLayer.Services.Identity;
 
 namespace TaskBlog.PresentationLayer
 {
@@ -31,6 +32,7 @@ namespace TaskBlog.PresentationLayer
             kernel.Bind(typeof(IService<ArticleDTO>)).To(typeof(ArticleService));
             kernel.Bind(typeof(IService<CommentDTO>)).To(typeof(CommentService));
             kernel.Bind(typeof(IService<TagDTO>)).To(typeof(TagService));
+            kernel.Bind(typeof(IService<UserProfileDTO>)).To(typeof(UserProfileService));
             kernel.Bind<IUserService>().To<UserService>();
         }
     }

@@ -9,8 +9,10 @@ using TaskBlog.BusinessLogicLayer.Infrastructure;
 using TaskBlog.BusinessLogicLayer.DTOModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
 using TaskBlog.DataLayer;
+using Microsoft.Owin.Security.DataProtection;
+using Microsoft.AspNet.Identity.Owin;
 
-namespace TaskBlog.BusinessLogicLayer.Services
+namespace TaskBlog.BusinessLogicLayer.Services.Identity
 {
     public class UserService : IUserService
     {
@@ -19,6 +21,8 @@ namespace TaskBlog.BusinessLogicLayer.Services
         public UserService(AppUnitOfWork db)
         {
             _db = db;
+            var provider = new DpapiDataProtectionProvider("Sample");
+            _db.UserManager.UserTokenProvider = new DataProtectorTokenProvider<User>(provider.Create("EmailConfirmation"));
         }
 
         public async Task<OperationDetails> Create(UserDTO userDto)
@@ -33,8 +37,10 @@ namespace TaskBlog.BusinessLogicLayer.Services
                 // добавляем роль
                 await _db.UserManager.AddToRoleAsync(user.Id, userDto.Role);
                 // создаем профиль клиента
+                userDto.Id = user.Id;
                 var userProfile = new UserProfile { Id = user.Id, FirstName = userDto.FirstName, LastName = userDto.LastName };
                 _db.Repository<UserProfile>().Create(userProfile);
+
                 await _db.SaveAsync();
                 return new OperationDetails(true, "Регистрация успешно пройдена", "");
             }
@@ -42,6 +48,17 @@ namespace TaskBlog.BusinessLogicLayer.Services
             {
                 return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
             }
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
+        {
+            var s = await _db.UserManager.GenerateEmailConfirmationTokenAsync(userId);
+            return await _db.UserManager.GenerateEmailConfirmationTokenAsync(userId);
+        }
+
+        public async Task SendEmailConfirmationAsync(string userId, string callbackUrl)
+        {
+            await _db.UserManager.SendEmailAsync(userId, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
         }
 
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)

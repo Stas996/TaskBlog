@@ -12,6 +12,12 @@ namespace TaskBlog.PresentationLayer.ViewModels
         [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
+        [Display(Name = "Страна")]
+        public string Country { get; set; }
+
+        [Display(Name = "Город")]
+        public string City { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

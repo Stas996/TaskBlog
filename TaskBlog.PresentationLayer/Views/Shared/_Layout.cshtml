@@ -24,11 +24,11 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        @if (User.IsInRole("admin"))
+                        @*@if (User.IsInRole("admin"))
                         {
                             <li>@Html.ActionLink("Статьи", "Index", "Article")</li>
                             <li>@Html.ActionLink("Категории", "Index", "Tag")</li>
-                        }
+                        }*@
                     </ul>
                     @Html.Partial("_LoginPartial")
                 </div>
@@ -41,13 +41,16 @@
     </header>
     <div class="container body-content">
         <div class="row">
-            <div class="col-md-10">
+            <aside class="col-md-2">
+                @Html.Partial("~/Views/UserProfile/_Menu.cshtml");
+            </aside>
+            <div class="main col-md-10">
                 @RenderBody()
             </div>
-            <div class="col-md-2">
+            @*<div class="col-md-2">
                 @Html.Partial("_Menu");
-                @*@Html.Action("RandomVote", "Questionary");*@
-            </div>
+                @Html.Action("RandomVote", "Questionary");
+            </div>*@
         </div>
     </div>
     <hr />

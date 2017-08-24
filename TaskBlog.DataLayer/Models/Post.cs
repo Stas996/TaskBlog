@@ -14,21 +14,19 @@ namespace TaskBlog.DataLayer
         [ForeignKey("ParentPost")]
         public int? ParentPostId { get; set; }
 
-        [ForeignKey("UserProfile")]
-        public string UserProfileId { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         public DateTime? DateTime { get; set; }
 
         public virtual Post ParentPost { get; set; }
 
-        public virtual UserProfile UserProfile { get; set; }
+        public virtual UserProfile User { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
 

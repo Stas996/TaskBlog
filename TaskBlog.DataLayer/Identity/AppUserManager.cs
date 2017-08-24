@@ -7,6 +7,7 @@ namespace TaskBlog.DataLayer
         public AppUserManager(IUserStore<User> store)
                 : base(store)
         {
+    
         }
     }
 }

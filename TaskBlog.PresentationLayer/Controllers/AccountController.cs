@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
 using TaskBlog.PresentationLayer.ViewModels;
 using TaskBlog.BusinessLogicLayer.DTOModels;
@@ -53,7 +52,7 @@ namespace TaskBlog.PresentationLayer.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Manage", new { area = "Admin"});
+                    return RedirectToAction("Index", "Article");
                 }
             }
             return View(model);
@@ -87,7 +86,18 @@ namespace TaskBlog.PresentationLayer.Controllers
                 };
                 OperationDetails operationDetails = await UserService.Create(userDto);
                 if (operationDetails.Succedeed)
-                    return View("SuccessRegister");
+                {
+                    //send email confirmation code
+                    //var code = await UserService.GenerateEmailConfirmationTokenAsync(userDto.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userDto.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserService.SendEmailConfirmationAsync(userDto.Id, callbackUrl);
+
+                    return RedirectToAction("Login", new { model = 
+                        new LoginViewModel() {
+                            Email = model.Email,
+                            Password = model.Password}
+                    });
+                }
                 else
                     ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }

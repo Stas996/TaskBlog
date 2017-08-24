@@ -1,0 +1,48 @@
+﻿@model TaskBlog.PresentationLayer.ViewModels.UserProfileViewModel
+@{
+    ViewBag.Title = "";
+    var user = Model;
+}
+
+<h2 class="text-center">@user.FullName</h2>
+
+<div class="col-md-12">
+    <div class="panel panel-success">
+        <div class="panel-heading"><strong>Данные о пользователе</strong></div>
+        <div class="panel-body">
+            <div class="col-md-3">
+                <img src="~/Content/Images/no-image.png" class="img-circle" alt="" width="200" height="200">
+            </div>
+            <div class="col-md-5">
+                <p>
+                    <strong>Имя:</strong> 
+                    <span class="pull-right">@user.FirstName</span>
+                </p>
+                <hr />
+                <p>
+                    <strong>Фамилия:</strong> 
+                    <span class="pull-right">@user.LastName</span>
+                </p>
+                <hr />
+                <p>
+                    <strong>Страна:</strong> 
+                    <span class="pull-right">@user.Country</span>
+                </p>
+                <hr />
+                <p>
+                    <strong>Город:</strong>  
+                    <span class="pull-right">@user.City</span>
+                </p>
+                <hr />
+                <p>
+                    <strong>Количество статей:</strong> 
+                    <span class="pull-right">@user.Articles.Length</span>
+                </p>
+                <hr />
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    </div>
+</div>

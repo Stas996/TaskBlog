@@ -5,27 +5,43 @@
     var Html = ((System.Web.Mvc.WebViewPage)WebPageContext.Current.Page).Html;
     foreach (var c in comments)
     {
-            <hr />
-            <div class="row">
-                <div class="col-sm-2">
-                    <div class="thumbnail">
-                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <strong>@c.Name</strong>
-                            <span class="text-muted">@c.DateTime</span>
-                            <div class="pull-right">
-                                @Html.ActionLink("Delete", "Delete", "Comment", new { id = c.Id }, null)
+            <div class="comment row" id="@c.Id">
+                <div class="row">
+                    <div class="ms-block">
+                        <div class="col-sm-2">
+                            <div class="thumbnail">
+                                <img class="img-responsive user-photo" src="~/Content/Images/no-image.png">
                             </div>
                         </div>
-                        <div class="panel-body">
-                            @c.Description
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>@Html.ActionLink(c.User.FullName, "Show", "UserProfile", new { userId = c.User.Id })</strong>
+                                    <span class="text-muted">@c.DateTime</span>
+                                    <div class="pull-right">
+                                        <a href="javascript:" class="ms-add-comment">Комментировать</a>|
+                                        @Html.ActionLink("Удалить", "Delete", "Comment", new { id = c.Id }, null)
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    @c.Description
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-place">
+
+                    </div>
+                    @if (c.Comments.Count() > 0)
+                    {
+                        <div class="comments-area">
+                            @CommentsList(c.Comments)
+                        </div>
+                    }
+                </div>               
             </div>
-    }
+            <hr />
+}
 }

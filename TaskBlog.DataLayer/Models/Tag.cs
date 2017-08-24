@@ -9,8 +9,6 @@
     {
         public int Id { get; set; }
 
-        [Required]
-        //[Index("TagName", IsUnique = true)]
         [MaxLength(50)]
         public string Name { get; set; }
 

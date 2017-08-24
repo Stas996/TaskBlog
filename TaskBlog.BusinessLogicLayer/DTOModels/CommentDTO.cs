@@ -12,6 +12,8 @@ namespace TaskBlog.BusinessLogicLayer.DTOModels
 
         public int Id { get; set; }
 
+        public string UserId { get; set; }
+
         public int? ParentPostId { get; set; }
 
         public string Name { get; set; }
@@ -20,7 +22,9 @@ namespace TaskBlog.BusinessLogicLayer.DTOModels
 
         public DateTime? DateTime { get; set; }
 
-        public virtual ICollection<CommentDTO> Comments { get; set; }
+        public ICollection<CommentDTO> Comments { get; set; }
+
+        public UserProfileDTO User { get; set; }
 
     }
 }

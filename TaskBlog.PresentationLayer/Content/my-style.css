@@ -1,0 +1,109 @@
+﻿.ms-footer{
+    background-color: #2e852e;
+    color: white;
+    text-align: center;
+    min-height: 80px;
+    padding: 20px;
+}
+
+.ms-comment-area{
+    background-color: #FAFAFA;
+	padding: 15px;
+    margin-top: 20px;
+	border: 1px dashed green;
+    border-radius: 5px;
+}
+
+.ms-form-area{
+	background-color: #FAFAFA;
+	padding: 10px 40px 10px;
+	margin: 10px 150px;
+	border: 1px dashed green;
+    font-size: 16px;
+}
+
+.ms-vidget-area{
+    background-color: #FAFAFA;
+	padding: 10px 20px 10px;
+	border: 1px dashed green;
+    font-size: 14px;
+}
+
+.ms input,
+.ms select,
+.ms textarea{
+	max-width: inherit;
+}
+
+.ms-empty{
+    min-height : 300px;
+    padding: 120px;
+    margin: 20px 100px 20px;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    border: 1px dashed green;
+    color: forestgreen;
+    text-align:center;
+}
+
+.ms-footer a{
+     color: #99ffbb;
+}
+
+.ms-correct{
+    color: forestgreen;
+}
+
+.ms-incorrect{
+    color: red;
+}
+
+.ms-answer-variant{
+    margin-left: 20px;
+}
+
+.ms-tags-panel a{
+    color: white;
+}
+
+.ms-sidebar-menu{
+    margin: 5px;
+    padding: 10px;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    border: 1px dashed green;
+}
+
+ul.ms-sidebar-menu{
+    list-style-type: none;
+}
+
+.ms-sidebar-menu-item{
+    padding: 10px;
+    color: forestgreen;
+    border-top: 1px dashed green;
+}
+
+.ms-sidebar-menu-item{
+    padding: 10px;
+    color: forestgreen;
+    border-top: 1px dashed green;
+}
+
+.ms-sidebar-menu-item:hover{
+    background-color: forestgreen;
+    color: #99ffbb;
+}
+
+.ms-sidebar-menu-item:hover a{
+    color: #99ffbb;
+}
+
+.ms-navbar{
+    margin-bottom: 0;
+    background-color: #284F27;
+}
+
+.ms-navbar a{
+    color: #99ffbb;
+}

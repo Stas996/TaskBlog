@@ -7,10 +7,10 @@ namespace TaskBlog.DataLayer
         where T : class
     {
         void Create(T item);
-        T GetById(int id);
+        T GetById(object id);
         IEnumerable<T> GetAll();
         IEnumerable<T> GetBy(Func<T, bool> predicate);
-        void Delete(int id);
+        void Delete(object id);
         void Delete(T item);
         void Update(T item);
         void Save();

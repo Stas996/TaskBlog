@@ -23,7 +23,8 @@ namespace TaskBlog.BusinessLogicLayer.Services
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Post, CommentDTO>();
+                cfg.CreateMap<Post, CommentDTO>()
+                    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts));
                 cfg.CreateMap<Tag, TagDTO>();
                 cfg.CreateMap<Post, ArticleDTO>()
                     .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts));
@@ -49,7 +50,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
             _articleRepository.Create(domModel);
         }
 
-        public void Delete(int id)
+        public void Delete(object id)
         {
             _articleRepository.Delete(id);
         }
@@ -71,7 +72,14 @@ namespace TaskBlog.BusinessLogicLayer.Services
             return dtoModels;
         }
 
-        public ArticleDTO GetById(int id)
+        public IEnumerable<ArticleDTO> GetByUserId(string userId)
+        {
+            var domModels = _articleRepository.GetBy(a => a.UserId == userId).ToList();
+            var dtoModels = _modelsMapper.Map<List<Post>, List<ArticleDTO>>(domModels);
+            return dtoModels;
+        }
+
+        public ArticleDTO GetById(object id)
         {
             var domModel = _articleRepository.GetById(id);
             var dtoModel = _modelsMapper.Map<Post, ArticleDTO>(domModel);

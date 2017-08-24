@@ -44,7 +44,7 @@ namespace TaskBlog.DataLayer
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public TEntity GetById(int id)
+        public TEntity GetById(object id)
         {
             return _dbSet.Find(id);
         }
@@ -71,7 +71,7 @@ namespace TaskBlog.DataLayer
         /// Delete entity by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        public void Delete(int id)
+        public void Delete(object id)
         {
             var entity = _dbSet.Find(id);
             if (entity != null)

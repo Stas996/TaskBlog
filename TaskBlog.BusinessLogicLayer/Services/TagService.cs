@@ -43,7 +43,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
             }
         }
 
-        public void Delete(int id)
+        public void Delete(object id)
         {
             _tagRepository.Delete(id);
         }
@@ -55,7 +55,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
             return dtoModels;
         }
 
-        public TagDTO GetById(int id)
+        public TagDTO GetById(object id)
         {
             var domModel = _tagRepository.GetById(id);
             var dtoModel = _modelsMapper.Map<Tag, TagDTO>(domModel);
