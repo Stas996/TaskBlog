@@ -20,6 +20,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
 
             var config = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<UserProfile, UserProfileDTO>();
                 cfg.CreateMap<Post, CommentDTO>()
                     .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts));
                 cfg.CreateMap<CommentDTO, Post>();
@@ -36,6 +37,8 @@ namespace TaskBlog.BusinessLogicLayer.Services
 
         public void Delete(object id)
         {
+            var domModel = _postRepository.GetById(id);
+            RecursionPostDelete(domModel);
             _postRepository.Delete(id);
         }
 
@@ -75,6 +78,17 @@ namespace TaskBlog.BusinessLogicLayer.Services
         public void Save()
         {
             _db.Save();
+        }
+
+        private void RecursionPostDelete(Post post)
+        {
+            foreach (var p in post.Posts.ToArray())
+            {
+                if (p.Posts.Count > 0)
+                    RecursionPostDelete(p);
+                else
+                    _postRepository.Delete(p.Id);
+            }
         }
     }
 }

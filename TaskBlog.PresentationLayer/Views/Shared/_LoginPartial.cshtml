@@ -12,6 +12,11 @@
         <li>
             @Html.ActionLink("Мой кабинет", "Show", "UserProfile", new { userId = User.Identity.GetUserId<string>()} , htmlAttributes: new { title = "Личный кабинет" })
         </li>
+        @if (User.IsInRole("admin"))
+        {
+            <li>@Html.ActionLink("Управление сайтом", "Index", "Manage", new { area = "Admin" }, null)</li>
+        }
+        
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>
     </ul>
     }

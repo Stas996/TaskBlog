@@ -9,6 +9,8 @@ namespace TaskBlog.PresentationLayer.ViewModels
     {
         public string Id { get; set; }
 
+        public string Email { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -19,8 +21,10 @@ namespace TaskBlog.PresentationLayer.ViewModels
 
         public string City { get; set; }
 
-        public ArticleViewModel[] Articles { get; set; }
+        public int ArticlesCount { get; set; }
 
-        public CommentViewModel[] Comments { get; set; }
+        //public ArticleViewModel[] Articles { get; set; }
+
+        //public CommentViewModel[] Comments { get; set; }
     }
 }

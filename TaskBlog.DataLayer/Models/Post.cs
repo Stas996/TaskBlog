@@ -22,6 +22,8 @@ namespace TaskBlog.DataLayer
 
         public string Description { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
         public DateTime? DateTime { get; set; }
 
         public virtual Post ParentPost { get; set; }

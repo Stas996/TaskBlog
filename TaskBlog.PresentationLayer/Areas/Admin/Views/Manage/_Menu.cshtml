@@ -1,0 +1,7 @@
+﻿@using TaskBlog.PresentationLayer.Enums
+<ul class="ms-sidebar-menu">
+    <li class="ms-sidebar-menu-item">@Html.ActionLink("Мой кабинет", "Index", "Manage", null, null)</li>
+    <li class="ms-sidebar-menu-item">@Html.ActionLink("Новые статьи", "FilterArticles", "Article", new { area = "", filter = (int)ArticleFilter.NotConfirmed}, null)</li>
+    <li class="ms-sidebar-menu-item">@Html.ActionLink("Режим пользователя", "Index", "Article", new { area = ""}, null)</li>
+    <li class="ms-sidebar-menu-item"><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>
+</ul>

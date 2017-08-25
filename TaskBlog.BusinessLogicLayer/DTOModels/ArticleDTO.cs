@@ -13,6 +13,8 @@ namespace TaskBlog.BusinessLogicLayer.DTOModels
 
         public string Description { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
         public DateTime? DateTime { get; set; }
 
         public ICollection<CommentDTO> Comments { get; set; }

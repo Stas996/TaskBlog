@@ -16,7 +16,7 @@
 
                 <div class="col-md-10">
                     <div class="form-group">
-                        @Html.HiddenFor(model => model.UserId, new { @value = User.Identity.GetUserId<string>() })
+                        @Html.HiddenFor(model => model.UserId)
                         @Html.HiddenFor(model => model.ParentPostId)
                         @Html.TextAreaFor(model => model.Description, new { @placeholder = "Комментарий...", @class = "form-control", @rows = "3" })
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })

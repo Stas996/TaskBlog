@@ -8,4 +8,7 @@
     @CategoryHelpers.CategoryList(Model)
 </div>
 <hr/>
-@Html.Partial("_Form")
+@if (User.IsInRole("admin"))
+{
+    @Html.Partial("_Form")
+}

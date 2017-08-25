@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -38,7 +36,13 @@ namespace TaskBlog.BusinessLogicLayer.Services.Identity
                 await _db.UserManager.AddToRoleAsync(user.Id, userDto.Role);
                 // создаем профиль клиента
                 userDto.Id = user.Id;
-                var userProfile = new UserProfile { Id = user.Id, FirstName = userDto.FirstName, LastName = userDto.LastName };
+                var userProfile = new UserProfile {
+                    Id = user.Id,
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
+                    Country = userDto.Country,
+                    City = userDto.City
+                };
                 _db.Repository<UserProfile>().Create(userProfile);
 
                 await _db.SaveAsync();
@@ -68,8 +72,11 @@ namespace TaskBlog.BusinessLogicLayer.Services.Identity
             User user = await _db.UserManager.FindAsync(userDto.Email, userDto.Password);
             // авторизуем его и возвращаем объект ClaimsIdentity
             if (user != null)
+            {
+                userDto.Id = user.Id;
                 claim = await _db.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
+            }
             return claim;
         }
 

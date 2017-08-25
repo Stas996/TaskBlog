@@ -5,6 +5,7 @@ using TaskBlog.BusinessLogicLayer.Interfaces;
 using TaskBlog.BusinessLogicLayer.Services;
 using TaskBlog.BusinessLogicLayer.DTOModels;
 using TaskBlog.PresentationLayer.ViewModels;
+using TaskBlog.PresentationLayer.Enums;
 using AutoMapper;
 
 namespace TaskBlog.PresentationLayer.Controllers
@@ -24,7 +25,9 @@ namespace TaskBlog.PresentationLayer.Controllers
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserProfileDTO, UserProfileViewModel>();
-                cfg.CreateMap<ArticleDTO, ArticleViewModel>();
+                cfg.CreateMap<ArticleDTO, ArticleViewModel>()
+                    .ForMember(dest => dest.TagsId, 
+                    opt => opt.MapFrom(src => src.Tags.Select(t => t.Id).ToArray()));
                 cfg.CreateMap<TagDTO, TagViewModel>();
                 cfg.CreateMap<CommentDTO, CommentViewModel>();
                 cfg.CreateMap<ArticleViewModel, ArticleDTO>();
@@ -36,36 +39,56 @@ namespace TaskBlog.PresentationLayer.Controllers
         // GET: Article
         public ActionResult Index()
         {
-            var articles = _articleService.GetAll().OrderByDescending(a => a.DateTime).ToList();
+            var articles = _articleService.GetConfirmed().OrderByDescending(a => a.DateTime).ToList();
             var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles);
-            ViewBag.Tags = _tagService.GetAll();
             return View(viewArticles);
         }
 
-        public ActionResult Index(string userId)
+        public ActionResult FilterArticles(string userId = null, ArticleFilter filter = ArticleFilter.All)
         {
-            var articles = _articleService.GetByUserId(userId).OrderByDescending(a => a.DateTime).ToList();
-            var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles);
-            ViewBag.Tags = _tagService.GetAll();
-            return View(viewArticles);
+            var articles = (userId == null) ? _articleService.GetAll() : _articleService.GetByUserId(userId);
+
+            switch(filter)
+            {
+                case ArticleFilter.Confirmed:
+                    articles = articles.Where(a => a.IsConfirmed);
+                    break;
+
+                case ArticleFilter.NotConfirmed:
+                    articles = articles.Where(a => !a.IsConfirmed);
+                    break;
+            }
+        
+            var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles.ToList());
+            return View("Index", viewArticles.ToList());
         }
 
-        public ActionResult Show(int id)
+        public ActionResult Show(int articleId)
         {
-            var article = _articleService.GetById(id);
+            var article = _articleService.GetById(articleId);
             var viewArticle = _modelsMapper.Map<ArticleDTO, ArticleViewModel>(article);
             return View(viewArticle);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int articleId)
         {
-            return View();
+            var dtoModel = _articleService.GetById(articleId);
+            ViewBag.Tags = _tagService.GetAll();
+            var viewModel = _modelsMapper.Map<ArticleDTO, ArticleViewModel>(dtoModel);
+            return View(viewModel);
         }
 
         public ActionResult Create()
         {
             ViewBag.Tags = _tagService.GetAll();
             return View();
+        }
+
+        public ActionResult Confirm(int articleId)
+        {
+            _articleService.Confirm(articleId);
+            _articleService.Save();
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         [HttpPost]
@@ -79,10 +102,21 @@ namespace TaskBlog.PresentationLayer.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         [Authorize]
-        public ActionResult Delete(int id)
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(ArticleViewModel article)
         {
-            _articleService.Delete(id);
+            var dtoModel = _modelsMapper.Map<ArticleViewModel, ArticleDTO>(article);
+            _articleService.Update(dtoModel, article.TagsId);
+            _articleService.Save();
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public ActionResult Delete(int articleId)
+        {
+            _articleService.Delete(articleId);
             _articleService.Save();
             return RedirectToAction("Index");
         }

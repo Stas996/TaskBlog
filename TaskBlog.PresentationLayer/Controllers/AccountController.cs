@@ -52,6 +52,7 @@ namespace TaskBlog.PresentationLayer.Controllers
                     {
                         IsPersistent = true
                     }, claim);
+                    //Session["CurrentUserId"] = 
                     return RedirectToAction("Index", "Article");
                 }
             }
@@ -82,6 +83,8 @@ namespace TaskBlog.PresentationLayer.Controllers
                     Password = model.Password,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    Country = model.Country,
+                    City = model.City,
                     Role = "user"
                 };
                 OperationDetails operationDetails = await UserService.Create(userDto);
@@ -92,11 +95,9 @@ namespace TaskBlog.PresentationLayer.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userDto.Id, code = code }, protocol: Request.Url.Scheme);
                     //await UserService.SendEmailConfirmationAsync(userDto.Id, callbackUrl);
 
-                    return RedirectToAction("Login", new { model = 
-                        new LoginViewModel() {
+                    return await Login(new LoginViewModel() {
                             Email = model.Email,
-                            Password = model.Password}
-                    });
+                            Password = model.Password });
                 }
                 else
                     ModelState.AddModelError(operationDetails.Property, operationDetails.Message);

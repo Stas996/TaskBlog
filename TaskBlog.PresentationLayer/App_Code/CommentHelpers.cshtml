@@ -1,4 +1,6 @@
 ﻿@using System.Web.Mvc.Html
+@using Microsoft.AspNet.Identity
+
 @*хелпер для вывода комментариев*@
 @helper CommentsList(IEnumerable<TaskBlog.PresentationLayer.ViewModels.CommentViewModel> comments)
 {
@@ -16,11 +18,15 @@
                         <div class="col-sm-8">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <strong>@Html.ActionLink(c.User.FullName, "Show", "UserProfile", new { userId = c.User.Id })</strong>
+                                    <strong>@Html.ActionLink(c.User.FullName, "Show", "UserProfile", new { userId = c.User.Id }, null)</strong>
                                     <span class="text-muted">@c.DateTime</span>
                                     <div class="pull-right">
-                                        <a href="javascript:" class="ms-add-comment">Комментировать</a>|
-                                        @Html.ActionLink("Удалить", "Delete", "Comment", new { id = c.Id }, null)
+                                        @if(User.IsInRole("admin") || User.Identity.GetUserId<string>() == c.UserId)
+                                        {
+                                            <a href="javascript:" class="ms-add-comment">Комментировать</a>
+                                            <a href="javascript:" class="ms-cancel-comment">Отмена</a><span> | </span>
+                                            @Html.ActionLink("Удалить", "Delete", "Comment", new { id = c.Id }, null);
+                                        }
                                     </div>
                                 </div>
                                 <div class="panel-body">

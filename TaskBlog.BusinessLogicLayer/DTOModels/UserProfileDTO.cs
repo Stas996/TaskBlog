@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskBlog.BusinessLogicLayer.DTOModels
+﻿namespace TaskBlog.BusinessLogicLayer.DTOModels
 {
     public class UserProfileDTO
     {
         public string Id { get; set; }
+
+        public string Email { get; set; }
 
         public string FirstName { get; set; }
 
@@ -18,8 +14,10 @@ namespace TaskBlog.BusinessLogicLayer.DTOModels
 
         public string City { get; set; }
 
-        public ICollection<ArticleDTO> Articles { get; set; }
+        public int ArticlesCount { get; set; }
 
-        public ICollection<CommentDTO> Comments { get; set; }
+        //public ICollection<ArticleDTO> Articles { get; set; }
+
+        //public ICollection<CommentDTO> Comments { get; set; }
     }
 }

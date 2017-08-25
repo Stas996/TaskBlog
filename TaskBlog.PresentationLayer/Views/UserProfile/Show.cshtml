@@ -1,10 +1,10 @@
 ﻿@model TaskBlog.PresentationLayer.ViewModels.UserProfileViewModel
 @{
-    ViewBag.Title = "";
     var user = Model;
+    ViewBag.Title = user.FullName;
 }
 
-<h2 class="text-center">@user.FullName</h2>
+<h2 class="text-center">@ViewBag.Title</h2>
 
 <div class="col-md-12">
     <div class="panel panel-success">
@@ -25,6 +25,11 @@
                 </p>
                 <hr />
                 <p>
+                    <strong>E-mail:</strong>
+                    <span class="pull-right"><a href="mailto:@user.Email">@user.Email</a></span>
+                </p>
+                <hr />
+                <p>
                     <strong>Страна:</strong> 
                     <span class="pull-right">@user.Country</span>
                 </p>
@@ -36,12 +41,14 @@
                 <hr />
                 <p>
                     <strong>Количество статей:</strong> 
-                    <span class="pull-right">@user.Articles.Length</span>
+                    <span class="pull-right">@user.ArticlesCount</span>
                 </p>
                 <hr />
             </div>
             <div class="col-md-4">
-
+                <ul>
+                    <li>@Html.ActionLink("Добавить статью", "Create", "Article")</li>
+                </ul>
             </div>
         </div>
     </div>

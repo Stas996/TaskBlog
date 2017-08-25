@@ -5,6 +5,7 @@ using TaskBlog.PresentationLayer.ViewModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
 using TaskBlog.BusinessLogicLayer.Services;
 using TaskBlog.BusinessLogicLayer.DTOModels;
+using Microsoft.AspNet.Identity;
 using AutoMapper;
 
 namespace TaskBlog.PresentationLayer.Controllers
@@ -37,7 +38,7 @@ namespace TaskBlog.PresentationLayer.Controllers
         public PartialViewResult Create(int parentId)
         {
             return PartialView("_Form", 
-                new CommentViewModel() { ParentPostId = parentId });
+                new CommentViewModel() { ParentPostId = parentId, UserId = User.Identity.GetUserId<string>() });
         }
 
         [HttpPost]

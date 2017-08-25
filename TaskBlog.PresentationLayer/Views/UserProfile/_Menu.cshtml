@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 <ul class="ms-sidebar-menu">
     <li class="ms-sidebar-menu-item">@Html.ActionLink("Мой кабинет", "Show", "UserProfile", new { userId = User.Identity.GetUserId<string>()}, null)</li>
-    <li class="ms-sidebar-menu-item">@Html.ActionLink("Мои статьи", "Index", "Article")</li>    
+    <li class="ms-sidebar-menu-item">@Html.ActionLink("Мои статьи", "FilterArticles", "Article", new { userId = User.Identity.GetUserId<string>() }, null)</li>    
+    <li class="ms-sidebar-menu-item"><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>    
 </ul>

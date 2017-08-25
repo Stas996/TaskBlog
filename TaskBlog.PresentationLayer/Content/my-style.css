@@ -4,6 +4,7 @@
     text-align: center;
     min-height: 80px;
     padding: 20px;
+    border-top: 1px dashed #99ffbb;
 }
 
 .ms-comment-area{
@@ -90,6 +91,10 @@ ul.ms-sidebar-menu{
     border-top: 1px dashed green;
 }
 
+.ms-sidebar-menu-item:first-child{
+    border-top: none;
+}
+
 .ms-sidebar-menu-item:hover{
     background-color: forestgreen;
     color: #99ffbb;
@@ -101,9 +106,23 @@ ul.ms-sidebar-menu{
 
 .ms-navbar{
     margin-bottom: 0;
-    background-color: #284F27;
+    background-color: #0b7a0b;/*#1d381d;*/
+    border-top: 1px dashed #99ffbb;
+    border-bottom: 1px dashed #99ffbb;
 }
 
 .ms-navbar a{
     color: #99ffbb;
+}
+
+/*.ms-sidebar{
+    background-color: #caf9ca;
+}*/
+
+.ms-main{
+    border-left: 1px solid forestgreen;
+}
+
+.ms-danger{
+    background-color: peachpuff;
 }

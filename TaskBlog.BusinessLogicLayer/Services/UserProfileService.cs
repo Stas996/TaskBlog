@@ -21,9 +21,13 @@ namespace TaskBlog.BusinessLogicLayer.Services
 
             var config = new MapperConfiguration(cfg =>
             {
+                //cfg.CreateMap<Post, ArticleDTO>()
+                //    .ForMember(dest => dest.Tags, opt => opt.Ignore());
+                //cfg.CreateMap<Post, CommentDTO>();
+                //cfg.CreateMap<Tag, TagDTO>();
                 cfg.CreateMap<UserProfile, UserProfileDTO>()
-                  .ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.Posts.Where(p => p.ParentPostId == null).ToList()))
-                  .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts.Where(p => p.ParentPostId != null).ToList()));
+                  .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                  .ForMember(dest => dest.ArticlesCount, opt => opt.MapFrom(src => src.Posts.Where(p => p.ParentPostId == null).Count()));
                 cfg.CreateMap<UserProfileDTO, UserProfile>();
             });
 
