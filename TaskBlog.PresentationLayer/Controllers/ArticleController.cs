@@ -41,14 +41,16 @@ namespace TaskBlog.PresentationLayer.Controllers
         {
             var articles = _articleService.GetConfirmed().OrderByDescending(a => a.DateTime).ToList();
             var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles);
+            ViewBag.Title = "Популярные статьи";
             return View(viewArticles);
         }
 
         public ActionResult FilterArticles(string userId = null, ArticleFilter filter = ArticleFilter.All)
         {
             var articles = (userId == null) ? _articleService.GetAll() : _articleService.GetByUserId(userId);
+            ViewBag.Title = (userId == null) ? "Популярные статьи" : "Мои статьи";
 
-            switch(filter)
+            switch (filter)
             {
                 case ArticleFilter.Confirmed:
                     articles = articles.Where(a => a.IsConfirmed);
@@ -56,9 +58,11 @@ namespace TaskBlog.PresentationLayer.Controllers
 
                 case ArticleFilter.NotConfirmed:
                     articles = articles.Where(a => !a.IsConfirmed);
+                    ViewBag.Title = "Неопубликованные статьи";
                     break;
             }
-        
+            
+            
             var viewArticles = _modelsMapper.Map<List<ArticleDTO>, List<ArticleViewModel>>(articles.ToList());
             return View("Index", viewArticles.ToList());
         }

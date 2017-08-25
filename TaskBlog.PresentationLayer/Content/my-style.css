@@ -17,10 +17,10 @@
 
 .ms-form-area{
 	background-color: #FAFAFA;
-	padding: 10px 40px 10px;
+	padding: 20px 25px;
 	margin: 10px 150px;
 	border: 1px dashed green;
-    font-size: 16px;
+    border-radius: 5px;
 }
 
 .ms-vidget-area{
@@ -49,18 +49,6 @@
 
 .ms-footer a{
      color: #99ffbb;
-}
-
-.ms-correct{
-    color: forestgreen;
-}
-
-.ms-incorrect{
-    color: red;
-}
-
-.ms-answer-variant{
-    margin-left: 20px;
 }
 
 .ms-tags-panel a{

@@ -111,7 +111,8 @@ namespace TaskBlog.PresentationLayer.Controllers
                 Email = "stanislavh@ukr.net",
                 UserName = "stanislavh@ukr.net",
                 Password = "654321",
-                FirstName = "Пахом",
+                FirstName = "Вася",
+                LastName = "Пупкин",
                 Role = "admin",
             }, new List<string> { "user", "admin" });
         }
