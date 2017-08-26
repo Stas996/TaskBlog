@@ -10,6 +10,7 @@ using AutoMapper;
 
 namespace TaskBlog.PresentationLayer.Controllers
 {
+    [Authorize]
     public class UserProfileController : Controller
     {
         IService<UserProfileDTO> _service;

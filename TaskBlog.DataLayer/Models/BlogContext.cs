@@ -3,16 +3,13 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace TaskBlog.DataLayer
 {
     using System.Data.Entity;
-    using System.Data.Entity.ModelConfiguration.Conventions;
 
     public partial class BlogContext : IdentityDbContext<User>
     {
-        static string _connString = @"data source=(LocalDb)\MSSQLLocalDB;initial catalog=TaskBlog.DataLayer.BlogContext;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
-
         public BlogContext()
-            : base(_connString)
+            : base("BlogContext")
         {
-            //this.Configuration.LazyLoadingEnabled = false;
+            
         }
 
         public virtual DbSet<Post> Posts { get; set; }
