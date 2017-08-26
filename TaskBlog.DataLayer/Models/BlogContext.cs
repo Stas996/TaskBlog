@@ -8,9 +8,7 @@ namespace TaskBlog.DataLayer
     {
         public BlogContext()
             : base("BlogContext")
-        {
-            
-        }
+        { }
 
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }

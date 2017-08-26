@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TaskBlog.PresentationLayer.ViewModels
+﻿namespace TaskBlog.PresentationLayer.ViewModels
 {
     public class UserProfileViewModel
     {

@@ -83,7 +83,9 @@
       <DependentUpon>201708241714415_ChangeFieldNames.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201708251010151_PostIsConfirmed.cs" />
-    <Compile Include="Migrations\201708251010151_PostIsConfirmed.Designer.cs" />
+    <Compile Include="Migrations\201708251010151_PostIsConfirmed.Designer.cs">
+	  <DependentUpon>201708251010151_PostIsConfirmed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\BlogContext.cs" />
@@ -114,7 +116,9 @@
     <EmbeddedResource Include="Migrations\201708241714415_ChangeFieldNames.resx">
       <DependentUpon>201708241714415_ChangeFieldNames.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708251010151_PostIsConfirmed.resx" />
+    <EmbeddedResource Include="Migrations\201708251010151_PostIsConfirmed.resx">
+	  <DependentUpon>201708251010151_PostIsConfirmed.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
