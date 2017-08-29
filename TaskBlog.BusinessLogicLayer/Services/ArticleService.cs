@@ -1,51 +1,33 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using TaskBlog.DataLayer;
+using TaskBlog.ViewModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
-using TaskBlog.BusinessLogicLayer.DTOModels;
 using AutoMapper;
 
 namespace TaskBlog.BusinessLogicLayer.Services
 {
-    public class ArticleService : IService<ArticleDTO>
+    public class ArticleService : IService<ArticleViewModel>
     {
-        GenericUnitOfWork _db;
         IRepository<Post> _articleRepository;
         IRepository<Tag> _tagRepository;
-        IMapper _modelsMapper;
 
-        public ArticleService(GenericUnitOfWork unitOfWork)
+        public ArticleService(IRepository<Post> articleRepository,
+            IRepository<Tag> tagRepository)
         {
-            _db = unitOfWork;
-            _articleRepository = _db.Repository<Post>();
-            _tagRepository = _db.Repository<Tag>();
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserProfile, UserProfileDTO>();
-                cfg.CreateMap<UserProfileDTO, UserProfile>();
-                cfg.CreateMap<Post, CommentDTO>()
-                    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts));
-                //.ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
-                cfg.CreateMap<Tag, TagDTO>();
-                cfg.CreateMap<TagDTO, Tag>();
-                cfg.CreateMap<Post, ArticleDTO>()
-                    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts));
-                cfg.CreateMap<ArticleDTO, Post>();
-            });
-
-            _modelsMapper = config.CreateMapper();
+            _articleRepository = articleRepository;
+            _tagRepository = tagRepository;
         }
 
-        public void Create(ArticleDTO dtoModel)
+        public void Create(ArticleViewModel viewModel)
         {
-            var domModel = _modelsMapper.Map<ArticleDTO, Post>(dtoModel);
+            var domModel = Mapper.Map<ArticleViewModel, Post>(viewModel);
             _articleRepository.Create(domModel);
         }
 
-        public void Create(ArticleDTO dtoModel, int[] tagsId)
+        public void Create(ArticleViewModel viewModel, int[] tagsId)
         {
-            var domModel = _modelsMapper.Map<ArticleDTO, Post>(dtoModel);
+            var domModel = Mapper.Map<ArticleViewModel, Post>(viewModel);
             _articleRepository.Create(domModel);
             AddOrUpdateTags(domModel.Id, tagsId);
         }
@@ -57,51 +39,51 @@ namespace TaskBlog.BusinessLogicLayer.Services
             _articleRepository.Delete(id);
         }
 
-        public IEnumerable<ArticleDTO> GetAll()
+        public IEnumerable<ArticleViewModel> GetAll()
         {
-            var domModels = _articleRepository
+            var models = _articleRepository
                 .GetBy(p => p.ParentPostId == null)
                 .ToList();
-
-            var dtoModels = _modelsMapper.Map<List<Post>, List<ArticleDTO>>(domModels);
-            return dtoModels;
+            var viewModels = Mapper.Map<List<Post>, List<ArticleViewModel>>(models);
+            return viewModels;
         }
 
-        public IEnumerable<ArticleDTO> GetConfirmed()
+        public IEnumerable<ArticleViewModel> GetConfirmed()
         {
-            var domModels = _articleRepository
+            var models = _articleRepository
                 .GetBy(p => p.IsConfirmed)
                 .ToList();
 
-            var dtoModels = _modelsMapper.Map<List<Post>, List<ArticleDTO>>(domModels);
-            return dtoModels;
+            var viewModels = Mapper.Map<List<Post>, List<ArticleViewModel>>(models);
+            return viewModels;
         }
 
-        public IEnumerable<ArticleDTO> GetByTag(int tagId)
+        public IEnumerable<ArticleViewModel> GetByTag(int tagId)
         {
             var tag = _tagRepository.GetById(tagId);
-            var dtoModels = _modelsMapper.Map<List<Post>, List<ArticleDTO>>(tag.Articles.Where(a => a.IsConfirmed).ToList());
-            return dtoModels;
+            var viewModels = Mapper
+                .Map<List<Post>, List<ArticleViewModel>>(tag.Articles.Where(a => a.IsConfirmed).ToList());
+            return viewModels;
         }
 
-        public IEnumerable<ArticleDTO> GetByUserId(string userId)
+        public IEnumerable<ArticleViewModel> GetByUserId(string userId)
         {
-            var domModels = _articleRepository.GetBy(a => a.ParentPostId == null && a.UserId == userId).ToList();
-            var dtoModels = _modelsMapper.Map<List<Post>, List<ArticleDTO>>(domModels);
-            return dtoModels;
+            var models = _articleRepository.GetBy(a => a.ParentPostId == null && a.UserId == userId).ToList();
+            var viewModels = Mapper.Map<List<Post>, List<ArticleViewModel>>(models);
+            return viewModels;
         }
 
-        public ArticleDTO GetById(object id)
+        public ArticleViewModel GetById(object id)
         {
-            var domModel = _articleRepository.GetById(id);
-            var dtoModel = _modelsMapper.Map<Post, ArticleDTO>(domModel);
-            return dtoModel;
+            var model = _articleRepository.GetById(id);
+            var viewModel = Mapper.Map<Post, ArticleViewModel>(model);
+            return viewModel;
         }
 
-        public void Update(ArticleDTO dtoModel)
+        public void Update(ArticleViewModel viewModel)
         {
-            var domModel = _modelsMapper.Map<ArticleDTO, Post>(dtoModel);
-            _articleRepository.Update(domModel);
+            var model = Mapper.Map<ArticleViewModel, Post>(viewModel);
+            _articleRepository.Update(model);
         }
 
         public void Confirm(int articleId)
@@ -110,11 +92,11 @@ namespace TaskBlog.BusinessLogicLayer.Services
             domModel.IsConfirmed = true;
         }
 
-        public void Update(ArticleDTO dtoModel, int[] tagsId)
+        public void Update(ArticleViewModel viewModel, int[] tagsId)
         {
-            var domModel = _modelsMapper.Map<ArticleDTO, Post>(dtoModel);
-            _articleRepository.Update(domModel);
-            AddOrUpdateTags(domModel.Id, tagsId);
+            var model = Mapper.Map<ArticleViewModel, Post>(viewModel);
+            _articleRepository.Update(model);
+            AddOrUpdateTags(model.Id, tagsId);
         }
 
         public void AddOrUpdateTags(int articleId, int[] tagsId)
@@ -129,20 +111,20 @@ namespace TaskBlog.BusinessLogicLayer.Services
             }
         }
 
-        public void Save()
+        private void RecursionPostDelete(Post article)
         {
-            _articleRepository.Save();
-        }
-
-        private void RecursionPostDelete(Post post)
-        {
-            foreach(var p in post.Posts.ToArray())
+            foreach(var p in article.Posts.ToArray())
             {
                 if (p.Posts.Count > 0)
                     RecursionPostDelete(p);
                 else
                     _articleRepository.Delete(p.Id);
             }
+        }
+
+        public void Save()
+        {
+            _articleRepository.Save();
         }
     }
 }

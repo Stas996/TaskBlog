@@ -1,4 +1,4 @@
-﻿namespace TaskBlog.PresentationLayer.ViewModels
+﻿namespace TaskBlog.ViewModels
 {
     public class UserProfileViewModel
     {

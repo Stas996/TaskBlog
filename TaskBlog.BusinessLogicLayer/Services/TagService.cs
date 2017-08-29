@@ -1,37 +1,25 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using TaskBlog.DataLayer;
+using TaskBlog.ViewModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
-using TaskBlog.BusinessLogicLayer.DTOModels;
 using AutoMapper;
 
 namespace TaskBlog.BusinessLogicLayer.Services
 {
-    public class TagService : IService<TagDTO>
+    public class TagService : IService<TagViewModel>
     {
-        GenericUnitOfWork _db;
         IRepository<Tag> _tagRepository;
-        IMapper _modelsMapper;
 
-        public TagService(GenericUnitOfWork unitOfWork)
+        public TagService(IRepository<Tag> tagRepository)
         {
-            _db = unitOfWork;
-            _tagRepository = _db.Repository<Tag>();
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Tag, TagDTO>();
-                    //.ForMember(dest => dest.Articles, opt => opt.MapFrom(src => src.Articles));
-                cfg.CreateMap<TagDTO, Tag>();
-            });
-
-            _modelsMapper = config.CreateMapper();
+            _tagRepository = tagRepository;
         }
 
-        public void Create(TagDTO dtoModel)
+        public void Create(TagViewModel viewModel)
         {
-            var domModel = _modelsMapper.Map<TagDTO, Tag>(dtoModel);
-            _tagRepository.Create(domModel);
+            var model = Mapper.Map<TagViewModel, Tag>(viewModel);
+            _tagRepository.Create(model);
         }
 
         public void CreateMany(string[] tags)
@@ -48,24 +36,24 @@ namespace TaskBlog.BusinessLogicLayer.Services
             _tagRepository.Delete(id);
         }
 
-        public IEnumerable<TagDTO> GetAll()
+        public IEnumerable<TagViewModel> GetAll()
         {
-            var domModels = _tagRepository.GetAll().ToList();
-            var dtoModels = _modelsMapper.Map<List<Tag>, List<TagDTO>>(domModels);
-            return dtoModels;
+            var models = _tagRepository.GetAll().ToList();
+            var viewModels = Mapper.Map<List<Tag>, List<TagViewModel>>(models);
+            return viewModels;
         }
 
-        public TagDTO GetById(object id)
+        public TagViewModel GetById(object id)
         {
-            var domModel = _tagRepository.GetById(id);
-            var dtoModel = _modelsMapper.Map<Tag, TagDTO>(domModel);
-            return dtoModel;
+            var model = _tagRepository.GetById(id);
+            var viewModel = Mapper.Map<Tag, TagViewModel>(model);
+            return viewModel;
         }
 
-        public void Update(TagDTO dtoModel)
+        public void Update(TagViewModel viewModel)
         {
-            var domModel = _modelsMapper.Map<TagDTO, Tag>(dtoModel);
-            _tagRepository.Update(domModel);
+            var model = Mapper.Map<TagViewModel, Tag>(viewModel);
+            _tagRepository.Update(model);
         }
 
         bool ContainsAny(string tagName)
@@ -75,7 +63,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
 
         public void Save()
         {
-            _db.Save();
+            _tagRepository.Save();
         }
     }
 }

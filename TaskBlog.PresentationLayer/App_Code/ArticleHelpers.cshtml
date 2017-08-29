@@ -1,7 +1,7 @@
 ﻿@using System.Web.Mvc.Html
 @using Microsoft.AspNet.Identity
 @*хелпер для вывода статей*@
-@helper ArticlesList(IEnumerable<TaskBlog.PresentationLayer.ViewModels.ArticleViewModel> articles)    
+@helper ArticlesList(IEnumerable<TaskBlog.ViewModels.ArticleViewModel> articles)    
 {
 var Html = ((System.Web.Mvc.WebViewPage)WebPageContext.Current.Page).Html;
 foreach (var a in articles)

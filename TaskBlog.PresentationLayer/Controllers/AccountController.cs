@@ -3,11 +3,9 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
-using TaskBlog.PresentationLayer.ViewModels;
-using TaskBlog.BusinessLogicLayer.DTOModels;
+using TaskBlog.ViewModels;
 using System.Security.Claims;
 using TaskBlog.BusinessLogicLayer.Interfaces;
-using TaskBlog.BusinessLogicLayer.Infrastructure;
 
 namespace TaskBlog.PresentationLayer.Controllers
 {
@@ -39,8 +37,7 @@ namespace TaskBlog.PresentationLayer.Controllers
             await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
-                UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                ClaimsIdentity claim = await UserService.Authenticate(model);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
@@ -52,7 +49,6 @@ namespace TaskBlog.PresentationLayer.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    //Session["CurrentUserId"] = 
                     return RedirectToAction("Index", "Article");
                 }
             }
@@ -77,17 +73,7 @@ namespace TaskBlog.PresentationLayer.Controllers
             await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
-                UserDTO userDto = new UserDTO
-                {
-                    Email = model.Email,
-                    Password = model.Password,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Country = model.Country,
-                    City = model.City,
-                    Role = "user"
-                };
-                OperationDetails operationDetails = await UserService.Create(userDto);
+                var operationDetails = await UserService.Create(model);
                 if (operationDetails.Succedeed)
                 {
                     //send email confirmation code
@@ -96,7 +82,7 @@ namespace TaskBlog.PresentationLayer.Controllers
                     //await UserService.SendEmailConfirmationAsync(userDto.Id, callbackUrl);
 
                     return await Login(new LoginViewModel() {
-                            Email = model.Email,
+                            UserName = model.UserName,
                             Password = model.Password });
                 }
                 else
@@ -104,16 +90,16 @@ namespace TaskBlog.PresentationLayer.Controllers
             }
             return View(model);
         }
+
         private async Task SetInitialDataAsync()
         {
-            await UserService.SetInitialData(new UserDTO
+            await UserService.SetInitialData(new RegisterViewModel
             {
                 Email = "stanislavh@ukr.net",
-                UserName = "stanislavh@ukr.net",
+                UserName = "Admin",
                 Password = "654321",
                 FirstName = "Вася",
                 LastName = "Пупкин",
-                Role = "admin",
             }, new List<string> { "user", "admin" });
         }
     }

@@ -1,40 +1,24 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using TaskBlog.DataLayer;
+using TaskBlog.ViewModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
-using TaskBlog.BusinessLogicLayer.DTOModels;
 using AutoMapper;
 using System;
 
 namespace TaskBlog.BusinessLogicLayer.Services
 {
-    public class UserProfileService : IService<UserProfileDTO>
+    public class UserProfileService : IService<UserProfileViewModel>
     {
-        GenericUnitOfWork _db;
         IRepository<UserProfile> _userRepository;
         IMapper _modelsMapper;
 
-        public UserProfileService(GenericUnitOfWork unitOfWork)
+        public UserProfileService(IRepository<UserProfile> userRepository)
         {
-            _db = unitOfWork;
-            _userRepository = _db.Repository<UserProfile>();
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                //cfg.CreateMap<Post, ArticleDTO>()
-                //    .ForMember(dest => dest.Tags, opt => opt.Ignore());
-                //cfg.CreateMap<Post, CommentDTO>();
-                //cfg.CreateMap<Tag, TagDTO>();
-                cfg.CreateMap<UserProfile, UserProfileDTO>()
-                  .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
-                  .ForMember(dest => dest.ArticlesCount, opt => opt.MapFrom(src => src.Posts.Where(p => p.ParentPostId == null).Count()));
-                cfg.CreateMap<UserProfileDTO, UserProfile>();
-            });
-
-            _modelsMapper = config.CreateMapper();
+            _userRepository = userRepository;
         }
 
-        public void Create(UserProfileDTO model)
+        public void Create(UserProfileViewModel model)
         {
             throw new NotImplementedException();
         }
@@ -44,18 +28,18 @@ namespace TaskBlog.BusinessLogicLayer.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<UserProfileDTO> GetAll()
+        public IEnumerable<UserProfileViewModel> GetAll()
         {
-            var domModels = _userRepository.GetAll().ToList();
-            var dtoModels = _modelsMapper.Map<List<UserProfile>, List<UserProfileDTO>>(domModels);
-            return dtoModels;
+            var models = _userRepository.GetAll().ToList();
+            var viewModels = Mapper.Map<List<UserProfile>, List<UserProfileViewModel>>(models);
+            return viewModels;
         }
 
-        public UserProfileDTO GetById(object id)
+        public UserProfileViewModel GetById(object id)
         {
-            var domModel = _userRepository.GetById(id);
-            var dtoModel = _modelsMapper.Map<UserProfile, UserProfileDTO>(domModel);
-            return dtoModel;
+            var model = _userRepository.GetById(id);
+            var viewModel = Mapper.Map<UserProfile, UserProfileViewModel>(model);
+            return viewModel;
         }
 
         public void Save()
@@ -63,7 +47,7 @@ namespace TaskBlog.BusinessLogicLayer.Services
             throw new NotImplementedException();
         }
 
-        public void Update(UserProfileDTO model)
+        public void Update(UserProfileViewModel model)
         {
             throw new NotImplementedException();
         }

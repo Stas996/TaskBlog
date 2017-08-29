@@ -2,7 +2,7 @@
 @using Microsoft.AspNet.Identity
 
 @*хелпер для вывода комментариев*@
-@helper CommentsList(IEnumerable<TaskBlog.PresentationLayer.ViewModels.CommentViewModel> comments)
+@helper CommentsList(IEnumerable<TaskBlog.ViewModels.CommentViewModel> comments)
 {
     var Html = ((System.Web.Mvc.WebViewPage)WebPageContext.Current.Page).Html;
     foreach (var c in comments)

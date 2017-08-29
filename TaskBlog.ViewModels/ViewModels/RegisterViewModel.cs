@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskBlog.PresentationLayer.ViewModels
+namespace TaskBlog.ViewModels
 {
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Логин")]
+        public string UserName { get; set; }
+
         [Required]
         [Display(Name = "Имя")]
         public string FirstName { get; set; }

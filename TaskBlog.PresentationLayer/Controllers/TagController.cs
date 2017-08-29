@@ -1,42 +1,32 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Collections.Generic;
-using TaskBlog.PresentationLayer.ViewModels;
+using TaskBlog.ViewModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
 using TaskBlog.BusinessLogicLayer.Services;
-using TaskBlog.BusinessLogicLayer.DTOModels;
-using AutoMapper;
 
 namespace TaskBlog.PresentationLayer.Controllers
 {
     public class TagController : Controller
     {
         TagService _service;
-        IMapper _modelsMapper;
 
-        public TagController(IService<TagDTO> service)
+        public TagController(IService<TagViewModel> service)
         {
             _service = service as TagService;
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TagDTO, TagViewModel>();
-            });
-            _modelsMapper = config.CreateMapper();
         }
 
         // GET: Article
         [Authorize]
         public ActionResult Index()
         {
-            var dtoModels = _service.GetAll().OrderBy(a => a.Name).ToList();
-            var viewModels = _modelsMapper.Map<List<TagDTO>, TagViewModel[]>(dtoModels);
+            var viewModels = _service.GetAll().OrderBy(a => a.Name).ToList();
             return View(viewModels);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TagDTO tag)
+        public ActionResult Create(TagViewModel tag)
         {
             _service.Create(tag);
             _service.Save();

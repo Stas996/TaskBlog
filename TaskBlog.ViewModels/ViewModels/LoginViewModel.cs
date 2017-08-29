@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskBlog.PresentationLayer.ViewModels
+namespace TaskBlog.ViewModels
 {
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Логин")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

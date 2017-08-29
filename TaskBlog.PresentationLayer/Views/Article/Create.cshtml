@@ -8,6 +8,6 @@
 <hr />
 @using (Html.BeginForm("Create", "Article", FormMethod.Post))
 {
-    @Html.Partial("_Form", new TaskBlog.PresentationLayer.ViewModels.ArticleViewModel() { UserId = userId })
+    @Html.Partial("_Form", new TaskBlog.ViewModels.ArticleViewModel() { UserId = userId })
 }
 

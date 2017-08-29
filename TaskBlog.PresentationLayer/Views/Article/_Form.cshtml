@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
-@model TaskBlog.PresentationLayer.ViewModels.ArticleViewModel
+@model TaskBlog.ViewModels.ArticleViewModel
 @{ 
     var tags = (ViewBag.Tags != null)
         ? ViewBag.Tags
-        : new TaskBlog.PresentationLayer.ViewModels.TagViewModel[] { };
+        : new TaskBlog.ViewModels.TagViewModel[] { };
 }
 
 <div class="row">

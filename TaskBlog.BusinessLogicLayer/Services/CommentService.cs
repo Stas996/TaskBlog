@@ -1,38 +1,26 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using TaskBlog.DataLayer;
+using TaskBlog.ViewModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
-using TaskBlog.BusinessLogicLayer.DTOModels;
 using AutoMapper;
 
 namespace TaskBlog.BusinessLogicLayer.Services
 {
-    public class CommentService : IService<CommentDTO>
+    public class CommentService : IService<CommentViewModel>
     {
-        GenericUnitOfWork _db;
         IRepository<Post> _postRepository;
         IMapper _modelsMapper;
 
-        public CommentService(GenericUnitOfWork unitOfWork)
+        public CommentService(IRepository<Post> postRepository)
         {
-            _db = unitOfWork;
-            _postRepository = _db.Repository<Post>();
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserProfile, UserProfileDTO>();
-                cfg.CreateMap<Post, CommentDTO>()
-                    .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Posts));
-                cfg.CreateMap<CommentDTO, Post>();
-            });
-
-            _modelsMapper = config.CreateMapper();
+            _postRepository = postRepository;
         }
 
-        public void Create(CommentDTO dtoModel)
+        public void Create(CommentViewModel viewModel)
         {
-            var domModel = _modelsMapper.Map<CommentDTO, Post>(dtoModel);
-            _postRepository.Create(domModel);
+            var model = Mapper.Map<CommentViewModel, Post>(viewModel);
+            _postRepository.Create(model);
         }
 
         public void Delete(object id)
@@ -42,42 +30,42 @@ namespace TaskBlog.BusinessLogicLayer.Services
             _postRepository.Delete(id);
         }
 
-        public IEnumerable<CommentDTO> GetAll()
+        public IEnumerable<CommentViewModel> GetAll()
         {
-            var domModels = _postRepository
+            var models = _postRepository
                 .GetBy(p => p.ParentPostId != null)
                 .ToList();
 
-            var dtoModels = _modelsMapper.Map<List<Post>, List<CommentDTO>>(domModels);
-            return dtoModels;
+            var viewModels = Mapper.Map<List<Post>, List<CommentViewModel>>(models);
+            return viewModels;
         }
 
-        public IEnumerable<CommentDTO> GetByArticleId(int articleId)
+        public IEnumerable<CommentViewModel> GetByArticleId(int articleId)
         {
-            var domModels = _postRepository
+            var models = _postRepository
                 .GetBy(p => p.ParentPost.ParentPostId == null && p.ParentPostId == articleId)
                 .ToList();
 
-            var dtoModels = _modelsMapper.Map<List<Post>, List<CommentDTO>>(domModels);
-            return dtoModels;
+            var viewModels = Mapper.Map<List<Post>, List<CommentViewModel>>(models);
+            return viewModels;
         }
 
-        public CommentDTO GetById(object id)
+        public CommentViewModel GetById(object id)
         {
-            var domModel = _postRepository.GetById(id);
-            var dtoModel = _modelsMapper.Map<Post, CommentDTO>(domModel);
-            return dtoModel;
+            var model = _postRepository.GetById(id);
+            var viewModel = Mapper.Map<Post, CommentViewModel>(model);
+            return viewModel;
         }
 
-        public void Update(CommentDTO dtoModel)
+        public void Update(CommentViewModel viewModel)
         {
-            var domModel = _modelsMapper.Map<CommentDTO, Post>(dtoModel);
-            _postRepository.Update(domModel);
+            var model = Mapper.Map<CommentViewModel, Post>(viewModel);
+            _postRepository.Update(model);
         }
 
         public void Save()
         {
-            _db.Save();
+            _postRepository.Save();
         }
 
         private void RecursionPostDelete(Post post)

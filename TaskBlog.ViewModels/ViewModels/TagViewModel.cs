@@ -1,4 +1,4 @@
-﻿namespace TaskBlog.PresentationLayer.ViewModels
+﻿namespace TaskBlog.ViewModels
 {
     public class TagViewModel
     {
@@ -7,6 +7,5 @@
         public string Name { get; set; }
 
         public char AlphabetLetter { get { return (Name != "") ? Name[0] : ' '; } }
-
     }
 }

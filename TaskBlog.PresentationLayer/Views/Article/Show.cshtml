@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@model TaskBlog.PresentationLayer.ViewModels.ArticleViewModel
+@model TaskBlog.ViewModels.ArticleViewModel
 @{
     ViewBag.Title = Model.Name;
     var currUserId = User.Identity.GetUserId<string>();
@@ -37,7 +37,7 @@
     @if(User.Identity.IsAuthenticated && Model.IsConfirmed)
     {
         <h4>Оставить комментарий</h4>
-        @Html.Partial("~/Views/Comment/_Form.cshtml", new TaskBlog.PresentationLayer.ViewModels.CommentViewModel() { ParentPostId = Model.Id, UserId = currUserId })
+        @Html.Partial("~/Views/Comment/_Form.cshtml", new TaskBlog.ViewModels.CommentViewModel() { ParentPostId = Model.Id, UserId = currUserId })
     }
 </div>
 

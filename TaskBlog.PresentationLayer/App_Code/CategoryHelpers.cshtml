@@ -1,6 +1,6 @@
 ﻿@using System.Web.Mvc.Html
 @*хелпер для вывода категорий*@
-@helper CategoryList(TaskBlog.PresentationLayer.ViewModels.TagViewModel[] categories, int partsCount = 1)
+@helper CategoryList(TaskBlog.ViewModels.TagViewModel[] categories, int partsCount = 1)
 {
     var Html = ((System.Web.Mvc.WebViewPage)WebPageContext.Current.Page).Html;
     var partLength = categories.Length / partsCount;

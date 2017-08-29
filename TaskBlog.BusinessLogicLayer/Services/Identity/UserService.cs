@@ -4,11 +4,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using TaskBlog.BusinessLogicLayer.Infrastructure;
-using TaskBlog.BusinessLogicLayer.DTOModels;
 using TaskBlog.BusinessLogicLayer.Interfaces;
 using TaskBlog.DataLayer;
+using TaskBlog.ViewModels;
 using Microsoft.Owin.Security.DataProtection;
 using Microsoft.AspNet.Identity.Owin;
+using AutoMapper;
 
 namespace TaskBlog.BusinessLogicLayer.Services.Identity
 {
@@ -23,25 +24,24 @@ namespace TaskBlog.BusinessLogicLayer.Services.Identity
             _db.UserManager.UserTokenProvider = new DataProtectorTokenProvider<User>(provider.Create("EmailConfirmation"));
         }
 
-        public async Task<OperationDetails> Create(UserDTO userDto)
+        public async Task<OperationDetails> Create(RegisterViewModel newUser, string role = "user")
         {
-            User user = await _db.UserManager.FindByEmailAsync(userDto.Email);
+            var user = await _db.UserManager.FindByEmailAsync(newUser.Email);
             if (user == null)
             {
-                user = new User { Email = userDto.Email, UserName = userDto.Email };
-                var result = await _db.UserManager.CreateAsync(user, userDto.Password);
+                user = Mapper.Map<RegisterViewModel, User>(newUser);
+                var result = await _db.UserManager.CreateAsync(user, newUser.Password);
                 if (result.Errors.Count() > 0)
                     return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
                 // добавляем роль
-                await _db.UserManager.AddToRoleAsync(user.Id, userDto.Role);
+                await _db.UserManager.AddToRoleAsync(user.Id, role);
                 // создаем профиль клиента
-                userDto.Id = user.Id;
                 var userProfile = new UserProfile {
                     Id = user.Id,
-                    FirstName = userDto.FirstName,
-                    LastName = userDto.LastName,
-                    Country = userDto.Country,
-                    City = userDto.City
+                    FirstName = newUser.FirstName,
+                    LastName = newUser.LastName,
+                    Country = newUser.Country,
+                    City = newUser.City
                 };
                 _db.Repository<UserProfile>().Create(userProfile);
 
@@ -65,15 +65,15 @@ namespace TaskBlog.BusinessLogicLayer.Services.Identity
             await _db.UserManager.SendEmailAsync(userId, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
         }
 
-        public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
+        public async Task<ClaimsIdentity> Authenticate(LoginViewModel authUser)
         {
             ClaimsIdentity claim = null;
             // находим пользователя
-            User user = await _db.UserManager.FindAsync(userDto.Email, userDto.Password);
+            var user = await _db.UserManager.FindAsync(authUser.UserName, authUser.Password);
             // авторизуем его и возвращаем объект ClaimsIdentity
             if (user != null)
             {
-                userDto.Id = user.Id;
+                //authUser.Id = user.Id;
                 claim = await _db.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             }
@@ -81,7 +81,7 @@ namespace TaskBlog.BusinessLogicLayer.Services.Identity
         }
 
         // начальная инициализация бд
-        public async Task SetInitialData(UserDTO adminDto, List<string> roles)
+        public async Task SetInitialData(RegisterViewModel admin, List<string> roles)
         {
             foreach (string roleName in roles)
             {
@@ -92,7 +92,7 @@ namespace TaskBlog.BusinessLogicLayer.Services.Identity
                     await _db.RoleManager.CreateAsync(role);
                 }
             }
-            await Create(adminDto);
+            await Create(admin, "admin");
         }
 
         public void Dispose()

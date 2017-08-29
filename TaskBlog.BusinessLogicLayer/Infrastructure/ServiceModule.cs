@@ -14,7 +14,10 @@ namespace TaskBlog.BusinessLogicLayer.Infrastructure
 
         public override void Load()
         {
-            Bind<DbContext>().To<BlogContext>().InRequestScope();       
+            Bind<DbContext>().To<BlogContext>().InRequestScope();
+            Bind<IRepository<Post>>().To<GenericRepository<Post>>().InRequestScope();
+            Bind<IRepository<Tag>>().To<GenericRepository<Tag>>().InRequestScope();
+            Bind<IRepository<UserProfile>>().To<GenericRepository<UserProfile>>().InRequestScope();
         }
     }
 }
